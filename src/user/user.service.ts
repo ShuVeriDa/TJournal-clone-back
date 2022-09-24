@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { FindOptionsWhere } from 'typeorm/find-options/FindOptionsWhere';
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,11 @@ export class UserService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.repository.findOneBy({ id });
+  }
+
+  findByCond(cond: FindOptionsWhere<UserEntity>) {
+    return this.repository.findOneBy(cond);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
