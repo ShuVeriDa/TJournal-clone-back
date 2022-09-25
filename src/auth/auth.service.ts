@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findByCond({
@@ -17,5 +20,14 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async login(user: UserEntity) {
+    const { password, ...userData } = user;
+    const payload = { email: user.email, sub: user.id };
+    return {
+      ...userData,
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
