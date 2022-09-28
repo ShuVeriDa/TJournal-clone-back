@@ -26,7 +26,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Request() req) {
-    return req.user;
+    return this.userService.findOneBy(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -42,6 +42,6 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOneBy(+id);
   }
 }
