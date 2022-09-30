@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { OutputBlockData } from '../dto/create-post.dto';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('posts')
 export class PostEntity {
@@ -20,6 +22,9 @@ export class PostEntity {
 
   @Column()
   description: string;
+
+  @ManyToOne(() => UserEntity, { eager: true })
+  user: UserEntity;
 
   @Column({
     default: 0,
