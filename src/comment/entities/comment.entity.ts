@@ -28,7 +28,7 @@ export class CommentEntity {
     nullable: false,
   })
   @JoinColumn({ name: 'postId' })
-  post: UserEntity;
+  post: PostEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
